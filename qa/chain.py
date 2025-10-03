@@ -9,16 +9,17 @@ api_key = os.getenv("GOOGLE_API_KEY")
 llm_model = "gemini-2.0-flash"
 
 
-def build_qa_chain(persist_dir="chroma_db"):
+def build_qa_chain(persist_dir="chroma_db", gemini_api_key=None):
     retriever = get_retriever(persist_dir)
     
-    llm = init_chat_model(llm_model, model_provider="google_genai")
+    # Use API key for Gemini
+    llm = init_chat_model("gemini-2.0-flash", model_provider="google_genai", api_key=gemini_api_key)
     
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
         chain_type="stuff",
-        verbose = True
+        verbose=True
     )
     return qa_chain
 
