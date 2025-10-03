@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session
 from qa.chain import build_qa_chain
-
+import os
 app = Flask(__name__)
 app.secret_key = "supersecretkey"  # For session management
 
@@ -33,4 +33,5 @@ def home():
     
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 10000))  # use Render's assigned port
+    app.run(host="0.0.0.0", port=port)
